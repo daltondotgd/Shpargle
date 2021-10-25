@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Shpargle",
+	"Description": "A set of random tools that may be useful at times.",
+	"Category": "Tools",
+	"CreatedBy": "dalton",
+	"CreatedByURL": "http://blog.dalton.gd/",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Shpargle",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
