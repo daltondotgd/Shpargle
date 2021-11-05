@@ -1,18 +1,77 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ShpargleEditor.h"
+#include "ShpargleStyle.h"
+#include "ShpargleCommands.h"
+#include "Misc/MessageDialog.h"
+#include "ToolMenus.h"
+#include "AssetUtils.h"
+#include "EditorUtilityLibrary.h"
 
 #define LOCTEXT_NAMESPACE "FShpargleEditorModule"
 
 void FShpargleEditorModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	FShpargleStyle::Initialize();
+	FShpargleStyle::ReloadTextures();
+
+	FShpargleCommands::Register();
+
+	ShpargleCommands = MakeShareable(new FUICommandList);
+
+	ShpargleCommands->MapAction(
+		FShpargleCommands::Get().CreateBlueprintAction,
+		FExecuteAction::CreateRaw(this, &FShpargleEditorModule::CreateBlueprintActionCallback),
+		FCanExecuteAction());
+
+	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FShpargleEditorModule::RegisterMenus));
 }
 
 void FShpargleEditorModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	UToolMenus::UnRegisterStartupCallback(this);
+
+	UToolMenus::UnregisterOwner(this);
+
+	FShpargleStyle::Shutdown();
+
+	FShpargleCommands::Unregister();
+}
+
+void FShpargleEditorModule::CreateBlueprintActionCallback()
+{
+	FString Path;
+	FString BlueprintName = TEXT("NewBlueprint");
+	if (!UEditorUtilityLibrary::GetCurrentContentBrowserPath(Path))
+	{
+		Path = TEXT("/Game");
+	}
+	UAssetUtils::CreateActorBlueprint(Path / BlueprintName);
+}
+
+void FShpargleEditorModule::RegisterMenus()
+{
+	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
+	FToolMenuOwnerScoped OwnerScoped(this);
+
+	{
+		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
+		{
+			FToolMenuSection& Section = Menu->AddSection("Shpargle", LOCTEXT("Shpargle", "Shpargle"));
+			Section.AddMenuEntryWithCommandList(FShpargleCommands::Get().CreateBlueprintAction, ShpargleCommands);
+		}
+	}
+
+	{
+		UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar.PlayToolBar");
+		{
+			FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Shpargle");
+			{
+				FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(FShpargleCommands::Get().CreateBlueprintAction));
+				Entry.SetCommandList(ShpargleCommands);
+			}
+		}
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -38,7 +38,12 @@ public class ShpargleEditor : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"UnrealEd",
+                "InputCore",
+                "UnrealEd",
+                "Projects",
+                "EditorFramework",
+                "ToolMenus",
+				"Blutility"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

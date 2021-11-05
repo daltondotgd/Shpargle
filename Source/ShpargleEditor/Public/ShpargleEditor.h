@@ -12,4 +12,14 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+
+	void CreateBlueprintActionCallback();
+
+private:
+	void RegisterMenus();
+
+
+private:
+	TSharedPtr<class FUICommandList> ShpargleCommands;
+
 };

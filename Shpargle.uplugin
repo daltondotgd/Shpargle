@@ -24,21 +24,6 @@
 			"Name": "ShpargleEditor",
 			"Type": "Editor",
 			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "TestButton",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "TestWindow",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "TestEditorMode",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
-		},
+		}
 	]
 }
