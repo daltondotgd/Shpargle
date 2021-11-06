@@ -13,6 +13,7 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
+	void RestartEditorActionCallback();
 	void CreateBlueprintActionCallback();
 
 private:

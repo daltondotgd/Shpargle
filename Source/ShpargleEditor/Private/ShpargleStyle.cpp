@@ -41,9 +41,10 @@ const FVector2D Icon20x20(20.0f, 20.0f);
 TSharedRef<FSlateStyleSet> FShpargleStyle::Create()
 {
 	TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("ShpargleStyle"));
-	Style->SetContentRoot(IPluginManager::Get().FindPlugin("Shpargle")->GetBaseDir() / TEXT("Resources"));
+	Style->SetContentRoot(FPaths::EngineDir() / TEXT("Content/Slate/Starship/Common"));
 
-	Style->Set("Shpargle.CreateBlueprintAction", new IMAGE_BRUSH_SVG(TEXT("PlaceholderButtonIcon"), Icon20x20));
+	Style->Set("Shpargle.CreateBlueprintAction", new IMAGE_BRUSH_SVG(TEXT("Blueprint"), Icon20x20));
+	Style->Set("Shpargle.RestartEditorAction", new IMAGE_BRUSH_SVG(TEXT("Refresh"), Icon20x20));
 	return Style;
 }
 

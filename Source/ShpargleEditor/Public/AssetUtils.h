@@ -16,7 +16,7 @@ class SHPARGLEEDITOR_API UAssetUtils : public UBlueprintFunctionLibrary
 	
 public:
 	UFUNCTION(BlueprintCallable, Category="Shpargle|AssetUtils")
-	static UBlueprint* CreateBlueprint(const FString& Path, UClass* ParentClass);
+	static UBlueprint* CreateBlueprint(const FString& Path, UClass* ParentClass, TArray<UActorComponent*> InstanceComponents);
 
 	UFUNCTION(BlueprintCallable, Category="Shpargle|AssetUtils")
 	static UBlueprint* CreateActorBlueprint(const FString& Path);

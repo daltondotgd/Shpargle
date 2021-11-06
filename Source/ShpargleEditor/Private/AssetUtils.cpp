@@ -19,7 +19,6 @@ UPackage* CreateBlueprintPackage(const FString& Path, FString& OutAssetName)
 
 	FAssetToolsModule& AssetToolsModule = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools");
 
-	// If no AssetName was found, generate a unique asset name.
 	if (OutAssetName.Len() == 0)
 	{
 		PackageName = FPackageName::GetLongPackagePath(Path);
@@ -35,7 +34,7 @@ UPackage* CreateBlueprintPackage(const FString& Path, FString& OutAssetName)
 	return CreatePackage(*PackageName);
 }
 
-UBlueprint* UAssetUtils::CreateBlueprint(const FString& Path, UClass* ParentClass)
+UBlueprint* UAssetUtils::CreateBlueprint(const FString& Path, UClass* ParentClass, TArray<UActorComponent*> InstanceComponents)
 {
 	UBlueprint* NewBlueprint = nullptr;
 	FString BlueprintName;
@@ -49,19 +48,13 @@ UBlueprint* UAssetUtils::CreateBlueprint(const FString& Path, UClass* ParentClas
 
 		if (NewBlueprint != nullptr)
 		{
-			// Notify the asset registry
 			FAssetRegistryModule::AssetCreated(NewBlueprint);
-
-			// Mark the package dirty
 			Outer->MarkPackageDirty();
 
-
-			USCS_Node* DefaultSceneRoot = NewBlueprint->SimpleConstructionScript->GetDefaultSceneRootNode();
-			TArray<UActorComponent*> InstanceComponents;
-			//InstanceComponents.Add(DefaultSceneRoot);  // not sure yet
+			// InstanceComponents.Add(...);
 
 			FKismetEditorUtilities::FAddComponentsToBlueprintParams AddCompParams;
-			AddCompParams.OptionalNewRootNode = DefaultSceneRoot;
+			AddCompParams.OptionalNewRootNode = NewBlueprint->SimpleConstructionScript->GetDefaultSceneRootNode();
 			FKismetEditorUtilities::AddComponentsToBlueprint(NewBlueprint, InstanceComponents, AddCompParams);
 
 			// AActor* CDO = CastChecked<AActor>(NewBlueprint->GeneratedClass->GetDefaultObject());
@@ -75,7 +68,7 @@ UBlueprint* UAssetUtils::CreateBlueprint(const FString& Path, UClass* ParentClas
 
 UBlueprint* UAssetUtils::CreateActorBlueprint(const FString& Path)
 {
-	return CreateBlueprint(Path, AActor::StaticClass());
+	return CreateBlueprint(Path, AActor::StaticClass(), TArray<UActorComponent*>());
 }
 
 #undef LOCTEXT_NAMESPACE
