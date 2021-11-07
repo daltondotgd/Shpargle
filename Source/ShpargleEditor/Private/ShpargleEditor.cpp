@@ -3,6 +3,7 @@
 #include "ShpargleEditor.h"
 #include "ShpargleStyle.h"
 #include "ShpargleCommands.h"
+#include "ShpargleSettings.h"
 #include "Misc/MessageDialog.h"
 #include "ToolMenus.h"
 #include "AssetUtils.h"
@@ -21,13 +22,13 @@ void FShpargleEditorModule::StartupModule()
 	ShpargleCommands = MakeShareable(new FUICommandList);
 
 	ShpargleCommands->MapAction(
-		FShpargleCommands::Get().CreateBlueprintAction,
-		FExecuteAction::CreateRaw(this, &FShpargleEditorModule::CreateBlueprintActionCallback),
+		FShpargleCommands::Get().RestartEditorAction,
+		FExecuteAction::CreateRaw(this, &FShpargleEditorModule::RestartEditorActionCallback),
 		FCanExecuteAction());
 
 	ShpargleCommands->MapAction(
-		FShpargleCommands::Get().RestartEditorAction,
-		FExecuteAction::CreateRaw(this, &FShpargleEditorModule::RestartEditorActionCallback),
+		FShpargleCommands::Get().CreateBlueprintAction,
+		FExecuteAction::CreateRaw(this, &FShpargleEditorModule::CreateBlueprintActionCallback),
 		FCanExecuteAction());
 
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FShpargleEditorModule::RegisterMenus));
@@ -70,6 +71,7 @@ void FShpargleEditorModule::RegisterMenus()
 		}
 	}
 
+	if (GetDefault<UShpargleSettings>()->bEnableTestTools)
 	{
 		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
 		{

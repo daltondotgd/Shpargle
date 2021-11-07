@@ -43,7 +43,9 @@ public class ShpargleEditor : ModuleRules
                 "Projects",
                 "EditorFramework",
                 "ToolMenus",
-				"Blutility"
+                "Blutility",
+                "DeveloperSettings",
+				"SettingsEditor"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
