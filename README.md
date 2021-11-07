@@ -1,2 +1,2 @@
 # Shpargle
-Shpargle Plugin
+Różne szpargały
