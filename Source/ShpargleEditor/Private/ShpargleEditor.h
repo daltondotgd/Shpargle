@@ -16,9 +16,7 @@ public:
 	void RestartEditorActionCallback();
 	void CreateBlueprintActionCallback();
 
-private:
 	void RegisterMenus();
-
 
 private:
 	TSharedPtr<class FUICommandList> ShpargleCommands;

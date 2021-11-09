@@ -60,6 +60,8 @@ void FShpargleEditorModule::CreateBlueprintActionCallback()
 
 void FShpargleEditorModule::RegisterMenus()
 {
+	UToolMenus::UnregisterOwner(FToolMenuOwner(this));
+
 	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
 	FToolMenuOwnerScoped OwnerScoped(this);
 
@@ -76,7 +78,7 @@ void FShpargleEditorModule::RegisterMenus()
 		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
 		{
 			FToolMenuSection& Section = Menu->AddSection("Shpargle", LOCTEXT("Shpargle", "Shpargle"));
-			Section.AddMenuEntryWithCommandList(FShpargleCommands::Get().CreateBlueprintAction, ShpargleCommands);
+			FToolMenuEntry& Entry = Section.AddMenuEntryWithCommandList(FShpargleCommands::Get().CreateBlueprintAction, ShpargleCommands);
 		}
 	}
 

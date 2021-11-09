@@ -5,6 +5,7 @@
 #include "Editor.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "WorldPartition/WorldPartition.h"
 
 
 UStaticMeshComponent* UWorldUtils::AddStaticMeshComponentToActor(class AActor* TargetActor, FString Name, class UStaticMesh* Mesh, const FTransform& RelativeTransform)
@@ -24,4 +25,73 @@ UStaticMeshComponent* UWorldUtils::AddStaticMeshComponentToActor(class AActor* T
 	TargetActor->RerunConstructionScripts();
 
 	return Component;
+}
+
+UWorldPartition* UWorldUtils::GetWorldPartition()
+{
+	return GEditor->GetEditorWorldContext().World()->GetWorldPartition();
+}
+
+/**
+ * Exactly what the Load Selected Cells does in the World Partition window.
+ */
+void UWorldUtils::LoadWorldPartitionCell(const FBox& SelectedBox)
+{
+	if (UWorldPartition* WorldPartition = GetWorldPartition())
+	{
+		WorldPartition->LoadEditorCells(SelectedBox, true);
+		GEditor->RedrawLevelEditingViewports();
+	}
+}
+
+/**
+ * Exactly what the Unload Selected Cells does in the World Partition window.
+ */
+void UWorldUtils::UnloadWorldPartitionCell(const FBox& SelectedBox)
+{
+	if (UWorldPartition* WorldPartition = GetWorldPartition())
+	{
+		WorldPartition->UnloadEditorCells(SelectedBox, true);
+		GEditor->RedrawLevelEditingViewports();
+	}
+}
+
+/**
+ * Skips calling redraw on the level viewports.
+ */
+void UWorldUtils::LoadWorldPartitionCellLight(const FBox& SelectedBox)
+{
+	if (UWorldPartition* WorldPartition = GetWorldPartition())
+	{
+		WorldPartition->LoadEditorCells(SelectedBox, true);
+	}
+}
+
+/**
+ * Skips calling redraw on the level viewports.
+ */
+void UWorldUtils::UnloadWorldPartitionCellLight(const FBox& SelectedBox)
+{
+	if (UWorldPartition* WorldPartition = GetWorldPartition())
+	{
+		WorldPartition->UnloadEditorCells(SelectedBox, true);
+	}
+}
+
+/**
+ * Skips calling redraw on the level viewports and uses the World Partition pointer delivered by user.
+ * The responsibility for delivering the right pointer is transfered to the user, so we can skip the check.
+ */
+void UWorldUtils::LoadWorldPartitionCellSuperlight(UWorldPartition* WorldPartition, const FBox& SelectedBox)
+{
+	WorldPartition->LoadEditorCells(SelectedBox, true);
+}
+
+/**
+ * Skips calling redraw on the level viewports and uses the World Partition pointer delivered by user.
+ * The responsibility for delivering the right pointer is transfered to the user, so we can skip the check.
+ */
+void UWorldUtils::UnloadWorldPartitionCellSuperlight(UWorldPartition* WorldPartition, const FBox& SelectedBox)
+{
+	WorldPartition->UnloadEditorCells(SelectedBox, true);
 }

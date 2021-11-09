@@ -22,4 +22,5 @@ public:
 	bool bEnableTestTools = false;
 
 	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
+
 };

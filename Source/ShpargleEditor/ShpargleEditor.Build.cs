@@ -45,7 +45,8 @@ public class ShpargleEditor : ModuleRules
                 "ToolMenus",
                 "Blutility",
                 "DeveloperSettings",
-				"SettingsEditor"
+				"SettingsEditor",
+				"WorldPartitionEditor"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

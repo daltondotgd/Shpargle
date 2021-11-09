@@ -5,6 +5,7 @@
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
 #include "ISettingsEditorModule.h"
+#include "ShpargleEditor.h"
 
 #define LOCTEXT_NAMESPACE "ShpargleSettings"
 
@@ -18,6 +19,8 @@ void UShpargleSettings::PostEditChangeChainProperty(FPropertyChangedChainEvent& 
 		if (PropertyName == GET_MEMBER_NAME_CHECKED(UShpargleSettings, bEnableExperimentalTools)
 			|| PropertyName == GET_MEMBER_NAME_CHECKED(UShpargleSettings, bEnableTestTools))
 		{
+			//FShpargleEditorModule& ShpargleEditor = FModuleManager::GetModuleChecked<FShpargleEditorModule>("ShpargleEditor");
+			//ShpargleEditor.RegisterMenus();
 			bPromptRestartRequired = true;
 		}
 
