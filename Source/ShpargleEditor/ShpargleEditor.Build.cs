@@ -46,7 +46,9 @@ public class ShpargleEditor : ModuleRules
                 "Blutility",
                 "DeveloperSettings",
 				"SettingsEditor",
-				"WorldPartitionEditor"
+                "WorldPartitionEditor",
+                "LevelInstanceEditor",
+                //"WorldPartitionHLODBuilder"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

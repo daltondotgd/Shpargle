@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "WorldPartition/WorldPartition.h"
+#include "LevelInstance/LevelInstanceSubsystem.h"
+#include "LevelInstance/Packed/PackedLevelInstanceActor.h"
 
 
 UStaticMeshComponent* UWorldUtils::AddStaticMeshComponentToActor(class AActor* TargetActor, FString Name, class UStaticMesh* Mesh, const FTransform& RelativeTransform)
@@ -30,6 +32,29 @@ UStaticMeshComponent* UWorldUtils::AddStaticMeshComponentToActor(class AActor* T
 UWorldPartition* UWorldUtils::GetWorldPartition()
 {
 	return GEditor->GetEditorWorldContext().World()->GetWorldPartition();
+}
+
+void UWorldUtils::ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path)
+{
+	if (ULevelInstanceSubsystem* LevelInstanceSubsystem = GEditor->GetEditorWorldContext().World()->GetSubsystem<ULevelInstanceSubsystem>())
+	{
+		FNewLevelInstanceParams CreationParams;
+		CreationParams.LevelPackageName = Path;
+		CreationParams.Type = ELevelInstanceCreationType::PackedLevelInstance;
+		LevelInstanceSubsystem->CreateLevelInstanceFrom(Actors, CreationParams);
+	}
+}
+
+TArray<AActor*> UWorldUtils::BreakLevelInstance(ALevelInstance* LevelInstanceActor, int32 Levels)
+{
+	TArray<AActor*> MovedActors = TArray<AActor*>();
+
+	if (ULevelInstanceSubsystem* LevelInstanceSubsystem = GEditor->GetEditorWorldContext().World()->GetSubsystem<ULevelInstanceSubsystem>())
+	{
+		LevelInstanceSubsystem->BreakLevelInstance(LevelInstanceActor, Levels, &MovedActors);
+	}
+
+	return MovedActors;
 }
 
 /**
