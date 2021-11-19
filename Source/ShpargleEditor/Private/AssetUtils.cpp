@@ -3,6 +3,7 @@
 
 #include "AssetUtils.h"
 #include "AssetToolsModule.h"
+#include "ObjectTools.h"
 #include "AssetRegistryModule.h"
 #include "Engine/SimpleConstructionScript.h"
 #include "Kismet2/KismetEditorUtilities.h"
@@ -69,6 +70,16 @@ UBlueprint* UAssetUtils::CreateBlueprint(const FString& Path, UClass* ParentClas
 UBlueprint* UAssetUtils::CreateActorBlueprint(const FString& Path)
 {
 	return CreateBlueprint(Path, AActor::StaticClass(), TArray<UActorComponent*>());
+}
+
+void UAssetUtils::DeleteAsset(FName AssetPath)
+{
+	FAssetRegistryModule& AssetRegistryModule = FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
+	FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(AssetPath);
+
+	TArray<FAssetData> AssetsToDelete;
+	AssetsToDelete.Add(AssetData);
+	ObjectTools::DeleteAssets(AssetsToDelete, false);
 }
 
 #undef LOCTEXT_NAMESPACE

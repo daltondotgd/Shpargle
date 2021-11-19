@@ -3,9 +3,11 @@
 
 #include "WorldUtils.h"
 #include "Editor.h"
+#include "EditorLevelUtils.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "WorldPartition/WorldPartition.h"
+#include "LevelInstance/LevelInstanceActor.h"
 #include "LevelInstance/LevelInstanceSubsystem.h"
 #include "LevelInstance/Packed/PackedLevelInstanceActor.h"
 
@@ -34,15 +36,32 @@ UWorldPartition* UWorldUtils::GetWorldPartition()
 	return GEditor->GetEditorWorldContext().World()->GetWorldPartition();
 }
 
-void UWorldUtils::ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path)
+ALevelInstance* UWorldUtils::ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path)
 {
 	if (ULevelInstanceSubsystem* LevelInstanceSubsystem = GEditor->GetEditorWorldContext().World()->GetSubsystem<ULevelInstanceSubsystem>())
 	{
 		FNewLevelInstanceParams CreationParams;
 		CreationParams.LevelPackageName = Path;
+		CreationParams.bExternalActors = false;
 		CreationParams.Type = ELevelInstanceCreationType::PackedLevelInstance;
-		LevelInstanceSubsystem->CreateLevelInstanceFrom(Actors, CreationParams);
+		return LevelInstanceSubsystem->CreateLevelInstanceFrom(Actors, CreationParams);
 	}
+
+	return nullptr;
+}
+
+bool UWorldUtils::MoveActorsToLevel(class ALevelInstance* LevelInstanceActor, const TArray<AActor*>& ActorsToMove)
+{
+	if (ULevelInstanceSubsystem* LevelInstanceSubsystem = GEditor->GetEditorWorldContext().World()->GetSubsystem<ULevelInstanceSubsystem>())
+	{
+		LevelInstanceSubsystem->EditLevelInstance(LevelInstanceActor);
+
+		bool Result = LevelInstanceSubsystem->MoveActorsTo(LevelInstanceActor, ActorsToMove);
+		LevelInstanceSubsystem->CommitLevelInstance(LevelInstanceActor, /* bDiscardEdits = */ false, /* bPromptForSave = */ false);
+		return Result;
+	}
+
+	return false;
 }
 
 TArray<AActor*> UWorldUtils::BreakLevelInstance(ALevelInstance* LevelInstanceActor, int32 Levels)

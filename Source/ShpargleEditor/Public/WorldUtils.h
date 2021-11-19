@@ -22,10 +22,13 @@ public:
 	static class UWorldPartition* GetWorldPartition();
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
-	static void ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path);
+	static class ALevelInstance* ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path);
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
-	static TArray<AActor*> BreakLevelInstance(ALevelInstance* LevelInstanceActor, int32 Levels);
+	static bool MoveActorsToLevel(class ALevelInstance* LevelInstanceActor, const TArray<AActor*>& ActorsToMove);
+	
+	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
+	static TArray<AActor*> BreakLevelInstance(class ALevelInstance* LevelInstanceActor, int32 Levels);
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
 	static void LoadWorldPartitionCell(const FBox& SelectedBox);

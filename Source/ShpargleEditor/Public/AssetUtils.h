@@ -20,5 +20,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Shpargle|AssetUtils")
 	static UBlueprint* CreateActorBlueprint(const FString& Path);
-
+	
+	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
+	static void DeleteAsset(FName AssetPath);
+	
 };
