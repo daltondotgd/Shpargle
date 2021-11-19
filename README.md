@@ -89,7 +89,7 @@ Functions exposed to Blueprints / Python
 import quick_tools
 ```
 
-* `quick_tools.populate(num_actors = 100, mesh = '/Engine/BasicShapes/Cube.Cube', radius = 12800)`
+* `quick_tools.populate(num_actors = 1000, mesh = '/Engine/BasicShapes/Cube.Cube', radius = 12800)`
   
   Populates the level with randomly distributed `num_actors` instances of a `StaticMeshActor` with random transform in `radius` and the Static Mesh property set to `mesh`
 
