@@ -24,4 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
 	static void DeleteAsset(FName AssetPath);
 	
+	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
+	static void CleanupAfterDelete(const TArray<UPackage*>& PotentialPackagesToDelete, bool bPerformReferenceCheck);
+	
 };

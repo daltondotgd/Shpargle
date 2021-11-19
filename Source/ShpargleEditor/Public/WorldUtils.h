@@ -19,10 +19,13 @@ public:
 	static class UStaticMeshComponent* AddStaticMeshComponentToActor(class AActor* TargetActor, FString Name, class UStaticMesh* Mesh, const FTransform& RelativeTransform);
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
+	static void DeleteActors(const TArray<AActor*>& Actors);
+	
+	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
 	static class UWorldPartition* GetWorldPartition();
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
-	static class ALevelInstance* ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path);
+	static class ALevelInstance* ConvertActorsToPackedLevelInstance(const TArray<AActor*>& Actors, const FString& Path);
 	
 	UFUNCTION(BlueprintCallable, Category = "Shpargle|World Utils")
 	static bool MoveActorsToLevel(class ALevelInstance* LevelInstanceActor, const TArray<AActor*>& ActorsToMove);

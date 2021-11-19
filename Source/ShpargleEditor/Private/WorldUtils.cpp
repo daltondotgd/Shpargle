@@ -3,6 +3,7 @@
 
 #include "WorldUtils.h"
 #include "Editor.h"
+#include "UnrealEd.h"
 #include "EditorLevelUtils.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
@@ -31,12 +32,18 @@ UStaticMeshComponent* UWorldUtils::AddStaticMeshComponentToActor(class AActor* T
 	return Component;
 }
 
+
+void UWorldUtils::DeleteActors(const TArray<AActor*>& Actors)
+{
+	GUnrealEd->DeleteActors(Actors, GEditor->GetEditorWorldContext().World(), nullptr, false, false, false);
+}
+
 UWorldPartition* UWorldUtils::GetWorldPartition()
 {
 	return GEditor->GetEditorWorldContext().World()->GetWorldPartition();
 }
 
-ALevelInstance* UWorldUtils::ConvertActorsToPackedLevelInstance(const TArray<AActor*> Actors, const FString& Path)
+ALevelInstance* UWorldUtils::ConvertActorsToPackedLevelInstance(const TArray<AActor*>& Actors, const FString& Path)
 {
 	if (ULevelInstanceSubsystem* LevelInstanceSubsystem = GEditor->GetEditorWorldContext().World()->GetSubsystem<ULevelInstanceSubsystem>())
 	{

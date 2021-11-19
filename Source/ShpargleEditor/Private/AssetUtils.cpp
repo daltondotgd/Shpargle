@@ -82,4 +82,9 @@ void UAssetUtils::DeleteAsset(FName AssetPath)
 	ObjectTools::DeleteAssets(AssetsToDelete, false);
 }
 
+void UAssetUtils::CleanupAfterDelete(const TArray<UPackage*>& PotentialPackagesToDelete, bool bPerformReferenceCheck)
+{
+	ObjectTools::CleanupAfterSuccessfulDelete(PotentialPackagesToDelete, bPerformReferenceCheck);
+}
+
 #undef LOCTEXT_NAMESPACE
